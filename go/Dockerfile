@@ -3,6 +3,6 @@ WORKDIR /hello
 COPY /hello .
 RUN go build -o /go/bin/hello
 
-FROM alpine:latest
+FROM scratch
 COPY --from=build /go/bin/hello /go/bin/hello
 ENTRYPOINT [ "/go/bin/hello" ]
