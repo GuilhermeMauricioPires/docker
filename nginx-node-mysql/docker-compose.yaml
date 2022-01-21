@@ -5,30 +5,28 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: nginx
+    container_name: docker_desafio_2_nginx
     networks:
       - node-mysql
     ports:
       - "8080:80"
     depends_on:
-      - app
-  app:
+      - node
+  node:
     build:
       context: ../node
     entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
     command: node index.js
     networks:
       - node-mysql
-    volumes:
-      - ../node:/usr/src/app
     tty: true
-    container_name: app
+    container_name: docker_desafio_2_node
     depends_on:
       - db
   db:
     image: mysql:5.7
     command: --innodb-use-native-aio=0
-    container_name: db
+    container_name: docker_desafio_2_db
     restart: always
     tty: true
     volumes:
